@@ -13,18 +13,17 @@ yargs.command({
     }
   },
   handler(argv) {
-    geocode(argv.name, (error, data) => {
+    geocode(argv.name, (error, {latitude, longitude, place_name}={}) => {
       if(error){
         return console.log('Error', error)
       } 
-      location = data.place_name
-      forecast(data.latitude, data.longitude, (error, weatherData) => {
+      forecast(latitude, longitude, (error, {description, temperature, feelslike}={}) => {
         if(error){
          return console.log('Error:', error)
         } 
-        console.log('Weather for ', location)
-        console.log(weatherData.description)
-        console.log('Temperature is ', data.temperature, ' but it feels like ', data.feelslike)
+        console.log('Weather for ', place_name)
+        console.log(description)
+        console.log('Temperature is ', temperature, ' but it feels like ', feelslike)
       })
     })
   }
